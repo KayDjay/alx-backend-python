@@ -1,37 +1,22 @@
 #!/usr/bin/python3
-"""
-    The `wait_n` function executes multiple coroutines simultaneously
-    and returns sorted list of the delays.
-
-    :param n: The parameter `n` in the `wait_n` function represents the number
-     of coroutines you want to execute simultaneously. It determines how many
-    coroutines will be created and executed concurrently using asyncio
-    :type n: int
-    :param max_delay: The `max_delay` parameter in the `wait_n` function
-    represents the maximum delay in seconds that each coroutine should wait
-    before completing. This value is used when calling the `wait_random`
-    coroutine to generate a random delay between 0 and `max_delay` seconds
-    :type max_delay: int
-    :return: The `wait_n` function returns a sorted list of floats representing
-    delays returned by executing multiple coroutines concurrently using asyncio
-    """
-
+""" Let's execute multiple coroutines at the same time with async """
 
 import asyncio
 from typing import List
 
 wait_random = __import__('0-basic_async_syntax').wait_random
 
-"""Function to execute multiple coroutines at the same time"""
-
 
 async def wait_n(n: int, max_delay: int) -> List[float]:
-    delays = []
-    tasks = []
-    for _ in range(n):
-        task = asyncio.create_task(wait_random(max_delay))
-        tasks.append(task)
-    for task in tasks:
-        delay = await task
-        delays.append(delay)
+    """
+    Asynchronously waits for a random delay multiple times and returns a sorted list of the delays.
+
+    Args:
+        n (int): The number of times to wait for a random delay.
+        max_delay (int): The maximum delay value.
+
+    Returns:
+        List[float]: A sorted list of the delays.
+    """
+    delays = [await wait_random(max_delay) for _ in range(n)]
     return sorted(delays)
