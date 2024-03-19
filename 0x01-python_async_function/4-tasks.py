@@ -1,4 +1,4 @@
-#!/usr/bin/python3
+#!/usr/bin/env python3
 """This module contains functions related to tasks"""
 
 import asyncio
