@@ -2,7 +2,7 @@
 """ Run time for four parallel comprehensions """
 
 import asyncio
-from typing import List
+from time import perf_counter
 
 async_comprehension = __import__('1-async_comprehension').async_comprehension
 
@@ -15,15 +15,14 @@ async def measure_runtime() -> float:
     Returns:
         float: The total runtime of calling async_comprehension 4 times.
     """
-    start_time = asyncio.get_event_loop().time()
+    # Record the starting time
+    start_time = perf_counter()
 
-    await asyncio.gather(*[async_comprehension() for _ in range(4)])
+    # Execute four instances of async_comprehension concurrently
+    await asyncio.gather(*(async_comprehension() for _ in range(4)))
 
-    end_time = asyncio.get_event_loop().time()
-    total_runtime = end_time - start_time
+    # Record the ending time
+    end_time = perf_counter()
 
-    return total_runtime
-
-
-if __name__ == "__main__":
-    print(asyncio.run(measure_runtime()))
+    # Calculate and return the total runtime
+    return end_time - start_time
